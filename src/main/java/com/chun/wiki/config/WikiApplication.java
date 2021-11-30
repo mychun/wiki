@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
 @SpringBootApplication
+//@ComponentScan({"com.chun", "con.test"})
 @ComponentScan("com.chun")
 public class WikiApplication {
 
