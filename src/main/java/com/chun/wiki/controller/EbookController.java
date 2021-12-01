@@ -1,6 +1,7 @@
 package com.chun.wiki.controller;
 
 import com.chun.wiki.domain.Ebook;
+import com.chun.wiki.resp.CommonResp;
 import com.chun.wiki.service.EbookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,9 @@ public class EbookController {
     private EbookService ebookService;
 
     @GetMapping("/list")
-    public List<Ebook> list(){
-        return ebookService.list();
+    public CommonResp list(){
+        CommonResp<Object> resp = new CommonResp<>();
+        resp.setContent(ebookService.list());
+        return resp;
     }
 }
