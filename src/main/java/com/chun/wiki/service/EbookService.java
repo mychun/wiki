@@ -5,6 +5,7 @@ import com.chun.wiki.domain.EbookExample;
 import com.chun.wiki.mapper.EbookMapper;
 import com.chun.wiki.req.EbookReq;
 import com.chun.wiki.resp.EbookResp;
+import com.chun.wiki.util.CopyUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,12 +28,7 @@ public class EbookService {
 
         List<Ebook> list = ebookMapper.selectByExample(ebookExample);
 
-        List<EbookResp> ebookResps = new ArrayList<>();
-        for (Ebook ebook : list) {
-            EbookResp ebookResp = new EbookResp();
-            BeanUtils.copyProperties(ebook, ebookResp);
-            ebookResps.add(ebookResp);
-        }
+        List<EbookResp> ebookResps = CopyUtil.copyList(list, EbookResp.class);
 
         return ebookResps;
     }
