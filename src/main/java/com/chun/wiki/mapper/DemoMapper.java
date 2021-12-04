@@ -1,17 +1,7 @@
 package com.chun.wiki.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chun.wiki.domain.Demo;
 
-public interface DemoMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(Demo record);
-
-    int insertSelective(Demo record);
-
-    Demo selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(Demo record);
-
-    int updateByPrimaryKey(Demo record);
+public interface DemoMapper extends BaseMapper<Demo> {
 }

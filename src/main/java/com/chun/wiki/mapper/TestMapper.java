@@ -1,9 +1,7 @@
 package com.chun.wiki.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chun.wiki.domain.Test;
 
-import java.util.List;
-
-public interface TestMapper {
-    List<Test> list();
+public interface TestMapper extends BaseMapper<Test> {
 }
