@@ -1,27 +1,21 @@
 package com.chun.wiki.controller;
 
-import com.chun.wiki.domain.Test;
-import com.chun.wiki.service.TestService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
+/**
+ * <p>
+ *  前端控制器
+ * </p>
+ *
+ * @author chun
+ * @since 2021-12-04
+ */
 @RestController
-@RequestMapping("test")
+@RequestMapping("/wiki/test")
 public class TestController {
-    @Autowired
-    private TestService testService;
 
-    @GetMapping("/hello")
-    public String hello(){
-        return "Hello world1";
-    }
-
-    @GetMapping("/list")
-    public List<Test> list(){
-        return testService.list();
-    }
 }
+

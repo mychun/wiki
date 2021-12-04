@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2021-12-04
  */
 @RestController
-@RequestMapping("/wiki/ebook")
-public class EbookController {
+@RequestMapping("/wiki/demo")
+public class DemoController {
 
 }
 

@@ -1,6 +1,6 @@
 package com.chun.wiki.service;
 
-import com.chun.wiki.domain.Test;
+import com.chun.wiki.domain.Demo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author chun
  * @since 2021-12-04
  */
-public interface TestService extends IService<Test> {
+public interface DemoService extends IService<Demo> {
 
 }
