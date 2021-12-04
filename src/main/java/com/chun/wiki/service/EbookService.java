@@ -2,6 +2,10 @@ package com.chun.wiki.service;
 
 import com.chun.wiki.domain.Ebook;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chun.wiki.req.EbookReq;
+import com.chun.wiki.resp.EbookResp;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface EbookService extends IService<Ebook> {
 
+    List<EbookResp> getListByEbookReq(EbookReq ebookReq);
 }

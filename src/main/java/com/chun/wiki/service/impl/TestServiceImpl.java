@@ -4,7 +4,10 @@ import com.chun.wiki.domain.Test;
 import com.chun.wiki.mapper.TestMapper;
 import com.chun.wiki.service.TestService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,5 +19,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TestServiceImpl extends ServiceImpl<TestMapper, Test> implements TestService {
+    @Autowired
+    private TestMapper testMapper;
 
+    public List<Test> list(){
+        return testMapper.selectList(null);
+    }
 }
