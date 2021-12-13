@@ -7,6 +7,9 @@ import com.chun.wiki.req.EbookReq;
 import com.chun.wiki.resp.CommonResp;
 import com.chun.wiki.resp.PageResp;
 import com.chun.wiki.service.EbookService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,16 +26,20 @@ import java.util.List;
  * @author chun
  * @since 2021-12-04
  */
+@Api("Ebook管理")
 @RestController
 @RequestMapping("/wiki/ebook")
 public class EbookController {
     @Autowired
     private EbookService ebookService;
 
+
+    @ApiOperation(value = "所有书籍列表")
     @GetMapping("/list")
     //EbookReq里面定义的属性
     //spring boot会自动配置并赋值
-    public CommonResp list(EbookReq ebookReq){
+    public CommonResp list(
+            EbookReq ebookReq){
         Page<Ebook> page = new Page<>(ebookReq.getPage(), ebookReq.getSize());
 
         ebookService.page(page, null);
