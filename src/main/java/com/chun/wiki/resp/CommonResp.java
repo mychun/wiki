@@ -3,9 +3,12 @@ package com.chun.wiki.resp;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 @Data
 @Accessors(chain = true)
-public class CommonResp<T> {
+public class CommonResp<T> implements Serializable {
+    private static final long serialVersionUID = 1L;
     /**
      * 业务上的成功或失败
      */
