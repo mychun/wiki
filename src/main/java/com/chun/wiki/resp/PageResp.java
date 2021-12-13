@@ -1,14 +1,16 @@
-package com.chun.wiki.req;
+package com.chun.wiki.resp;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class PageReq implements Serializable {
+public class PageResp<T> implements Serializable {
     private static final long serialVersionUID = 1L;
-    private Long page;
-    private Long size;
+
+    private Long total;
+    private List<T> list;
 }

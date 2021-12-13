@@ -1,14 +1,19 @@
 package com.chun.wiki.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.chun.wiki.domain.Ebook;
 import com.chun.wiki.req.EbookReq;
 import com.chun.wiki.resp.CommonResp;
+import com.chun.wiki.resp.PageResp;
 import com.chun.wiki.service.EbookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -28,9 +33,20 @@ public class EbookController {
     //EbookReq里面定义的属性
     //spring boot会自动配置并赋值
     public CommonResp list(EbookReq ebookReq){
-        CommonResp<Object> resp = new CommonResp<>();
-        resp.setContent(ebookService.getListByEbookReq(ebookReq));
-        return resp;
+        Page<Ebook> page = new Page<>(ebookReq.getPage(), ebookReq.getSize());
+
+        ebookService.page(page, null);
+
+        List<Ebook> ebooks = page.getRecords();
+        long total = page.getTotal();
+
+        PageResp<Ebook> ebookPageResp = new PageResp<>();
+        ebookPageResp.setTotal(total).setList(ebooks);
+
+        CommonResp<PageResp<Ebook>> commonResp = new CommonResp<>();
+        commonResp.setContent(ebookPageResp);
+
+        return commonResp;
     }
 }
 
