@@ -91,5 +91,22 @@ public class EbookController {
 
         return commonResp;
     }
+
+    @ApiOperation(value = "根绝id删除文档")
+    @DeleteMapping("/deleted")
+    public CommonResp deleted(
+            @ApiParam(name = "id", value = "文档id", readOnly = true)
+            Long id
+    ){
+        boolean result = ebookService.removeById(id);
+
+        CommonResp<Object> commonResp = new CommonResp<>();
+        if (!result){
+            commonResp.setSuccess(false);
+            commonResp.setMessage("删除文档失败");
+        }
+
+        return commonResp;
+    }
 }
 
