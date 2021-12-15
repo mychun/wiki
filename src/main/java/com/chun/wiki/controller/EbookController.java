@@ -35,7 +35,7 @@ public class EbookController {
     private EbookService ebookService;
 
 
-    @ApiOperation(value = "所有文档列表分页")
+    @ApiOperation(value = "所有电子书列表分页")
     @GetMapping("/list")
     //EbookReq里面定义的属性
     //spring boot会自动配置并赋值
@@ -58,10 +58,10 @@ public class EbookController {
         return commonResp;
     }
 
-    @ApiOperation(value = "新增文档")
+    @ApiOperation(value = "新增电子书")
     @PostMapping("/save")
     public CommonResp save(
-        @ApiParam(name = "Ebook", value = "文档对象", readOnly = true)
+        @ApiParam(name = "Ebook", value = "电子书对象", readOnly = true)
         @RequestBody EbookVoReq ebookVoReq
     ){
         Ebook ebook = new Ebook();
@@ -71,16 +71,16 @@ public class EbookController {
         CommonResp<Object> commonResp = new CommonResp<>();
         if (!result){
             commonResp.setSuccess(false);
-            commonResp.setMessage("新增文档失败");
+            commonResp.setMessage("新增电子书失败");
         }
 
         return commonResp;
     }
 
-    @ApiOperation(value = "根绝id修改文档")
+    @ApiOperation(value = "根绝id修改电子书")
     @PostMapping("/update")
     public CommonResp update(
-            @ApiParam(name = "Ebook", value = "文档对象", readOnly = true)
+            @ApiParam(name = "Ebook", value = "电子书对象", readOnly = true)
             @RequestBody Ebook ebook
     ){
         boolean result = ebookService.updateById(ebook);
@@ -88,16 +88,16 @@ public class EbookController {
         CommonResp<Object> commonResp = new CommonResp<>();
         if (!result){
             commonResp.setSuccess(false);
-            commonResp.setMessage("修改文档失败");
+            commonResp.setMessage("修改电子书失败");
         }
 
         return commonResp;
     }
 
-    @ApiOperation(value = "根绝id删除文档")
+    @ApiOperation(value = "根绝id删除电子书")
     @DeleteMapping("/deleted")
     public CommonResp deleted(
-            @ApiParam(name = "id", value = "文档id", readOnly = true)
+            @ApiParam(name = "id", value = "电子书id", readOnly = true)
             Long id
     ){
         boolean result = ebookService.removeById(id);
@@ -105,7 +105,7 @@ public class EbookController {
         CommonResp<Object> commonResp = new CommonResp<>();
         if (!result){
             commonResp.setSuccess(false);
-            commonResp.setMessage("删除文档失败");
+            commonResp.setMessage("删除电子书失败");
         }
 
         return commonResp;
