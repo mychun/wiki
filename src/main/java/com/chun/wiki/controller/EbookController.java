@@ -16,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -34,12 +35,13 @@ public class EbookController {
     private EbookService ebookService;
 
 
-    @ApiOperation(value = "所有文档列表")
+    @ApiOperation(value = "所有文档列表分页")
     @GetMapping("/list")
     //EbookReq里面定义的属性
     //spring boot会自动配置并赋值
     public CommonResp list(
-            EbookReq ebookReq){
+            @Valid EbookReq ebookReq){
+        //@Valid就是该对象开启校验规则
         Page<Ebook> page = new Page<>(ebookReq.getPage(), ebookReq.getSize());
 
         ebookService.page(page, null);
