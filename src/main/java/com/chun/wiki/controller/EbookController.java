@@ -74,5 +74,22 @@ public class EbookController {
 
         return commonResp;
     }
+
+    @ApiOperation(value = "根绝id修改文档")
+    @PostMapping("/update")
+    public CommonResp update(
+            @ApiParam(name = "Ebook", value = "文档对象", readOnly = true)
+            @RequestBody Ebook ebook
+    ){
+        boolean result = ebookService.updateById(ebook);
+
+        CommonResp<Object> commonResp = new CommonResp<>();
+        if (!result){
+            commonResp.setSuccess(false);
+            commonResp.setMessage("修改文档失败");
+        }
+
+        return commonResp;
+    }
 }
 
