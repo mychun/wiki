@@ -4,17 +4,17 @@ package com.chun.wiki.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chun.wiki.domain.Ebook;
 import com.chun.wiki.req.EbookReq;
+import com.chun.wiki.req.EbookVoReq;
 import com.chun.wiki.resp.CommonResp;
 import com.chun.wiki.resp.PageResp;
 import com.chun.wiki.service.EbookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.val;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class EbookController {
     private EbookService ebookService;
 
 
-    @ApiOperation(value = "所有书籍列表")
+    @ApiOperation(value = "所有文档列表")
     @GetMapping("/list")
     //EbookReq里面定义的属性
     //spring boot会自动配置并赋值
@@ -52,6 +52,25 @@ public class EbookController {
 
         CommonResp<PageResp<Ebook>> commonResp = new CommonResp<>();
         commonResp.setContent(ebookPageResp);
+
+        return commonResp;
+    }
+
+    @ApiOperation(value = "新增文档")
+    @PostMapping("/save")
+    public CommonResp save(
+        @ApiParam(name = "Ebook", value = "文档对象", readOnly = true)
+        @RequestBody EbookVoReq ebookVoReq
+    ){
+        Ebook ebook = new Ebook();
+        BeanUtils.copyProperties(ebookVoReq, ebook);
+        boolean result = ebookService.save(ebook);
+
+        CommonResp<Object> commonResp = new CommonResp<>();
+        if (!result){
+            commonResp.setSuccess(false);
+            commonResp.setMessage("新增文档失败");
+        }
 
         return commonResp;
     }
