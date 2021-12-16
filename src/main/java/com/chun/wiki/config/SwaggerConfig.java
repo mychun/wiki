@@ -23,8 +23,8 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.chun.wiki.controller")).paths(PathSelectors.any())
                 //忽略的api
-                .paths(Predicates.not(PathSelectors.regex("/admin/.*")))
-                .paths(Predicates.not(PathSelectors.regex("/error.*")))
+                .paths(Predicates.not(PathSelectors.regex("/wiki/test/.*")))
+                .paths(Predicates.not(PathSelectors.regex("/wiki/demo/.*")))
                 .build();
 
     }

@@ -27,7 +27,7 @@ import java.util.List;
  * @author chun
  * @since 2021-12-04
  */
-@Api("Ebook管理")
+@Api(description = "电子书管理")
 @RestController
 @RequestMapping("/wiki/ebook")
 public class EbookController {

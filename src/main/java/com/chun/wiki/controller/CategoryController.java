@@ -26,7 +26,7 @@ import java.util.List;
  * @author chun
  * @since 2021-12-15
  */
-@Api("Category管理")
+@Api(description = "分类管理")
 @RestController
 @RequestMapping("/wiki/category")
 public class CategoryController {
