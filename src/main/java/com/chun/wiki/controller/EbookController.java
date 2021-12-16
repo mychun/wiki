@@ -39,6 +39,7 @@ public class EbookController {
     @GetMapping("/list")
     //EbookReq里面定义的属性
     //spring boot会自动配置并赋值
+    //是以这种形式：http://localhost:8880/wiki/ebook/list?page=1&size=2
     public CommonResp list(
             @Valid EbookReq ebookReq){
         //@Valid就是该对象开启校验规则
@@ -98,7 +99,7 @@ public class EbookController {
     @DeleteMapping("/deleted")
     public CommonResp deleted(
             @ApiParam(name = "id", value = "电子书id", readOnly = true)
-            Long id
+            @RequestParam Long id
     ){
         boolean result = ebookService.removeById(id);
 
