@@ -35,8 +35,8 @@ public class Doc implements Serializable {
     @ApiModelProperty(value = "父id")
     private Long parentId;
 
-    @ApiModelProperty(value = "名称")
-    private String name;
+    @ApiModelProperty(value = "标题")
+    private String title;
 
     @ApiModelProperty(value = "排序")
     private Integer sort;
