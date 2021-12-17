@@ -2,6 +2,9 @@ package com.chun.wiki.service;
 
 import com.chun.wiki.domain.Doc;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chun.wiki.resp.CommonResp;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-12-17
  */
 public interface DocService extends IService<Doc> {
-
+    CommonResp<List<Doc>> getDocListForEbookId(Long id);
 }
