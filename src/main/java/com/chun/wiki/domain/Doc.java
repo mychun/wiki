@@ -20,12 +20,12 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="Doc对象", description="文档")
+@ApiModel(value="Doc对象", description="文章")
 public class Doc implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "id")
+    @ApiModelProperty(value = "文章id")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 

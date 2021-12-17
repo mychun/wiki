@@ -1,7 +1,7 @@
 package com.chun.wiki.controller;
 
 
-import com.chun.wiki.req.DocAddReq;
+import com.chun.wiki.req.DocSaveReq;
 import com.chun.wiki.resp.CommonResp;
 import com.chun.wiki.service.DocService;
 import io.swagger.annotations.Api;
@@ -20,7 +20,7 @@ import javax.validation.Valid;
  * @author chun
  * @since 2021-12-17
  */
-@Api(description = "文档管理")
+@Api(description = "文章管理")
 @RestController
 @RequestMapping("/wiki/doc")
 public class DocController {
@@ -36,13 +36,13 @@ public class DocController {
         return docService.getDocListForEbookId(id);
     }
 
-    @ApiOperation("新增文档")
-    @PostMapping("/add")
-    public CommonResp getDocListForEbookId(
-            @ApiParam(name = "docAddReq", value = "文档对象", required = true)
-            @Valid @RequestBody DocAddReq docAddReq
+    @ApiOperation("保存文章")
+    @PostMapping("/save")
+    public CommonResp save(
+            @ApiParam(name = "docAddReq", value = "文章对象", required = true)
+            @Valid @RequestBody DocSaveReq docSaveReq
     ){
-        docService.save(docAddReq);
+        docService.save(docSaveReq);
         CommonResp<Object> commonResp = new CommonResp<>();
         return commonResp;
     }

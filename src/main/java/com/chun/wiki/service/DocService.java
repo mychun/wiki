@@ -2,7 +2,7 @@ package com.chun.wiki.service;
 
 import com.chun.wiki.domain.Doc;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.chun.wiki.req.DocAddReq;
+import com.chun.wiki.req.DocSaveReq;
 import com.chun.wiki.resp.CommonResp;
 
 import java.util.List;
@@ -18,5 +18,5 @@ import java.util.List;
 public interface DocService extends IService<Doc> {
     CommonResp<List<Doc>> getDocListForEbookId(Long id);
 
-    void save(DocAddReq docAddReq);
+    void save(DocSaveReq docSaveReq);
 }

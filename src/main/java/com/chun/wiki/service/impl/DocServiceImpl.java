@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chun.wiki.domain.Doc;
 import com.chun.wiki.domain.DocContent;
 import com.chun.wiki.mapper.DocMapper;
-import com.chun.wiki.req.DocAddReq;
+import com.chun.wiki.req.DocSaveReq;
 import com.chun.wiki.resp.CommonResp;
 import com.chun.wiki.service.DocContentService;
 import com.chun.wiki.service.DocService;
@@ -42,16 +42,26 @@ public class DocServiceImpl extends ServiceImpl<DocMapper, Doc> implements DocSe
 
     @Transactional
     @Override
-    public void save(DocAddReq docAddReq) {
+    public void save(DocSaveReq docSaveReq) {
         Doc doc = new Doc();
-        BeanUtils.copyProperties(docAddReq, doc);
-        baseMapper.insert(doc);
+        BeanUtils.copyProperties(docSaveReq, doc);
 
-        if(docAddReq.getContent() != null){
+        if(docSaveReq.getId() != null){
+            baseMapper.updateById(doc);
+        }else {
+            baseMapper.insert(doc);
+        }
+
+        if(docSaveReq.getContent() != null){
             DocContent docContent = new DocContent();
-            docContent.setContent(docAddReq.getContent());
+            docContent.setContent(docSaveReq.getContent());
             docContent.setId(doc.getId());
-            docContentService.save(docContent);
+
+            if(docSaveReq.getId() != null){
+                docContentService.updateById(docContent);
+            }else {
+                docContentService.save(docContent);
+            }
         }
     }
 }

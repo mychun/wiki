@@ -24,9 +24,13 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ApiModel(value="Doc对象", description="文档")
-public class DocAddReq implements Serializable {
+public class DocSaveReq implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "id（id为空是新增，有值是修改）")
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
 
     @ApiModelProperty(value = "电子书id")
     @NotNull(message = "【电子书id】不能为空")

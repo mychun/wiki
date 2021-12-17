@@ -20,12 +20,12 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="DocContent对象", description="文档内容")
+@ApiModel(value="DocContent对象", description="文章内容")
 public class DocContent implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "文档内容id（与文档的id一样）")
+    @ApiModelProperty(value = "文章内容id（与文章的id一样）")
     //当id不是自增或者uuid时，而是通过接收前端传来的值来赋值，这时id就要设置为 IdType.INPUT
     @TableId(value = "id",type = IdType.INPUT)
     private Long id;
