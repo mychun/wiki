@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -35,7 +36,7 @@ public class DocAddReq implements Serializable {
     private Long parentId;
 
     @ApiModelProperty(value = "标题")
-    @NotNull(message = "【标题】不能为空")
+    @NotBlank(message = "【标题】不能为空")
     private String title;
 
     @ApiModelProperty(value = "文档内容")
