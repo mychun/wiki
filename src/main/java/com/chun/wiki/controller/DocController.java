@@ -1,8 +1,11 @@
 package com.chun.wiki.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.chun.wiki.domain.DocContent;
 import com.chun.wiki.req.DocSaveReq;
 import com.chun.wiki.resp.CommonResp;
+import com.chun.wiki.service.DocContentService;
 import com.chun.wiki.service.DocService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +30,9 @@ public class DocController {
     @Autowired
     private DocService docService;
 
+    @Autowired
+    private DocContentService docContentService;
+
     @ApiOperation("根据电子书id返回文档列表")
     @GetMapping("/list/{id}")
     public CommonResp getDocListForEbookId(
@@ -46,5 +52,30 @@ public class DocController {
         CommonResp<Object> commonResp = new CommonResp<>();
         return commonResp;
     }
+
+    @ApiOperation("删除文章")
+    @DeleteMapping("/delete/{id}")
+    public CommonResp delete(
+            @ApiParam(name = "id", value = "文章id", required = true)
+            @PathVariable Long id
+    ){
+        docService.deleteDocById(id);
+        CommonResp<Object> commonResp = new CommonResp<>();
+        return commonResp;
+    }
+
+    @ApiOperation("根据文章id获取文章内容")
+    @GetMapping("/getDocContent/{id}")
+    public CommonResp getDocContent(
+            @ApiParam(name = "id", value = "文章id", required = true)
+            @PathVariable Long id
+    ){
+        DocContent docContent = docContentService.getById(id);
+
+        CommonResp commonResp = new CommonResp();
+        commonResp.setContent(docContent.getContent());
+        return commonResp;
+    }
+
 }
 

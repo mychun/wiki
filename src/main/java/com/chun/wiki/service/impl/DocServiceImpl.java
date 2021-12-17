@@ -64,4 +64,11 @@ public class DocServiceImpl extends ServiceImpl<DocMapper, Doc> implements DocSe
             }
         }
     }
+
+    @Transactional //开启事务
+    @Override
+    public void deleteDocById(Long id) {
+        baseMapper.deleteById(id);
+        docContentService.removeById(id);
+    }
 }

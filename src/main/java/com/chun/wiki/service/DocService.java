@@ -19,4 +19,6 @@ public interface DocService extends IService<Doc> {
     CommonResp<List<Doc>> getDocListForEbookId(Long id);
 
     void save(DocSaveReq docSaveReq);
+
+    void deleteDocById(Long id);
 }
