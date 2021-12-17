@@ -1,17 +1,16 @@
 package com.chun.wiki.controller;
 
 
+import com.chun.wiki.req.DocAddReq;
 import com.chun.wiki.resp.CommonResp;
 import com.chun.wiki.service.DocService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import javax.validation.Valid;
 
 /**
  * <p>
@@ -35,6 +34,17 @@ public class DocController {
         @PathVariable Long id
     ){
         return docService.getDocListForEbookId(id);
+    }
+
+    @ApiOperation("新增文档")
+    @PostMapping("/add")
+    public CommonResp getDocListForEbookId(
+            @ApiParam(name = "docAddReq", value = "文档对象", required = true)
+            @Valid @RequestBody DocAddReq docAddReq
+    ){
+        docService.save(docAddReq);
+        CommonResp<Object> commonResp = new CommonResp<>();
+        return commonResp;
     }
 }
 
