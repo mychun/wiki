@@ -71,4 +71,9 @@ public class DocServiceImpl extends ServiceImpl<DocMapper, Doc> implements DocSe
         baseMapper.deleteById(id);
         docContentService.removeById(id);
     }
+
+    @Override
+    public void addViewCount(Long id) {
+        baseMapper.addViewCount(id);
+    }
 }

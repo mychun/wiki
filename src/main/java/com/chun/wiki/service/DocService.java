@@ -21,4 +21,6 @@ public interface DocService extends IService<Doc> {
     void save(DocSaveReq docSaveReq);
 
     void deleteDocById(Long id);
+
+    void addViewCount(Long id);
 }

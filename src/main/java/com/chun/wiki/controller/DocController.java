@@ -77,5 +77,16 @@ public class DocController {
         return commonResp;
     }
 
+    @ApiOperation("文章内容阅读数+1")
+    @PutMapping("/viewDocContent/{id}")
+    public CommonResp viewDocContent(
+            @ApiParam(name = "id", value = "文章id", required = true)
+            @PathVariable Long id
+    ){
+        docService.addViewCount(id);
+
+        CommonResp commonResp = new CommonResp();
+        return commonResp;
+    }
 }
 
