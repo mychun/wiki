@@ -23,4 +23,6 @@ public interface DocService extends IService<Doc> {
     void deleteDocById(Long id);
 
     void addViewCount(Long id);
+
+    void addVoteCount(Long id);
 }

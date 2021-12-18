@@ -76,4 +76,9 @@ public class DocServiceImpl extends ServiceImpl<DocMapper, Doc> implements DocSe
     public void addViewCount(Long id) {
         baseMapper.addViewCount(id);
     }
+
+    @Override
+    public void addVoteCount(Long id) {
+        baseMapper.addVoteCount(id);
+    }
 }

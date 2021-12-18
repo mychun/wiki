@@ -88,5 +88,17 @@ public class DocController {
         CommonResp commonResp = new CommonResp();
         return commonResp;
     }
+
+    @ApiOperation("文章内容点赞数+1")
+    @PutMapping("/voteCount/{id}")
+    public CommonResp voteCount(
+            @ApiParam(name = "id", value = "文章id", required = true)
+            @PathVariable Long id
+    ){
+        docService.addVoteCount(id);
+
+        CommonResp commonResp = new CommonResp();
+        return commonResp;
+    }
 }
 
