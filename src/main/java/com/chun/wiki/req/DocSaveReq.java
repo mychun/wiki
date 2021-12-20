@@ -54,6 +54,4 @@ public class DocSaveReq implements Serializable {
 
     @ApiModelProperty(value = "点赞数")
     private Integer voteCount;
-
-
 }
