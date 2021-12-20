@@ -11,13 +11,10 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * <p>
@@ -41,6 +38,16 @@ public class UserController {
             @Valid @RequestBody UserSaveReq userSaveReq
     ){
         return  userService.register(userSaveReq);
+    }
+
+    @ApiOperation(value = "用户列表")
+    @GetMapping("/list")
+    public CommonResp list(){
+        CommonResp<List<User>> commonResp = new CommonResp();
+
+        List<User> list = userService.list(null);
+        commonResp.setContent(list);
+        return  commonResp;
     }
 }
 
