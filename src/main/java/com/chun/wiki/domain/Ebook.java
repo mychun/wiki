@@ -58,12 +58,10 @@ public class Ebook implements Serializable {
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
-    @JsonIgnore
     private Date createDate;
 
     @ApiModelProperty(value = "修改时间")
     @TableField(fill = FieldFill.INSERT)
-    @JsonIgnore
     private Date updateDate;
 
     @ApiModelProperty(value = "逻辑删除：0（false）未删除，1（true）已删除")
