@@ -90,7 +90,7 @@ public class GlobalException {
     @ExceptionHandler(value = Exception.class)
     public CommonResp exceptionHandler(Exception e) {
         CommonResp commonResp = new CommonResp();
-        LOG.warn("系统异常：{}", e);
+        LOG.error("系统异常：{}", e);
         commonResp.setSuccess(false);
         commonResp.setMessage("系统出现异常，请联系管理员");
         return commonResp;
