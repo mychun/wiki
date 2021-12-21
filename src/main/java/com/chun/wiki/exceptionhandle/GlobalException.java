@@ -39,6 +39,7 @@ public class GlobalException {
         return commonResp;
     }
 
+    //下面可以定义多个异常处理
     /**
      * 自定义异常统一处理
      * @param request
@@ -71,5 +72,27 @@ public class GlobalException {
         return commonResp;
     }
 
-    //下面可以定义多个异常处理
+    /**
+     * 业务异常统一处理
+     */
+    @ExceptionHandler(value = BusinessException.class)
+    public CommonResp businessExceptionHandler(BusinessException e) {
+        CommonResp commonResp = new CommonResp();
+        LOG.warn("业务异常：{}", e.getCode().getDesc());
+        commonResp.setSuccess(false);
+        commonResp.setMessage(e.getCode().getDesc());
+        return commonResp;
+    }
+
+    /**
+     * 系统异常统一处理
+     */
+    @ExceptionHandler(value = Exception.class)
+    public CommonResp exceptionHandler(Exception e) {
+        CommonResp commonResp = new CommonResp();
+        LOG.warn("系统异常：{}", e);
+        commonResp.setSuccess(false);
+        commonResp.setMessage("系统出现异常，请联系管理员");
+        return commonResp;
+    }
 }

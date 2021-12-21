@@ -2,6 +2,8 @@ package com.chun.wiki.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chun.wiki.domain.User;
+import com.chun.wiki.exceptionhandle.BusinessException;
+import com.chun.wiki.exceptionhandle.BusinessExceptionCode;
 import com.chun.wiki.mapper.UserMapper;
 import com.chun.wiki.req.UserSaveReq;
 import com.chun.wiki.resp.CommonResp;
@@ -24,7 +26,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public CommonResp register(UserSaveReq userSaveReq) {
-        CommonResp commonResp = new CommonResp();
+
 
         User user = new User();
         BeanUtils.copyProperties(userSaveReq, user);
@@ -32,19 +34,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         QueryWrapper<User> queryWrapperToLoginName = new QueryWrapper<>();
         queryWrapperToLoginName.eq("login_name", user.getLoginName());
         if(baseMapper.selectCount(queryWrapperToLoginName) > 0){
-            return commonResp.setSuccess(false).setMessage("该【用户名】已存在");
+            throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
         }
 
         QueryWrapper<User> queryWrapperToName = new QueryWrapper<>();
         queryWrapperToName.eq("name", user.getName());
         if(baseMapper.selectCount(queryWrapperToName) > 0){
-            return commonResp.setSuccess(false).setMessage("该【昵称】已存在");
+            throw new BusinessException(BusinessExceptionCode.USER_NAME_EXIST);
         }
 
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
 
         baseMapper.insert(user);
 
+        CommonResp commonResp = new CommonResp();
         return commonResp;
     }
 }
