@@ -3,6 +3,7 @@ package com.chun.wiki.controller;
 
 import com.chun.wiki.domain.User;
 import com.chun.wiki.req.UserSaveReq;
+import com.chun.wiki.req.UserUpdateReq;
 import com.chun.wiki.resp.CommonResp;
 import com.chun.wiki.service.UserService;
 import io.swagger.annotations.Api;
@@ -10,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,7 +34,7 @@ public class UserController {
     @ApiOperation(value = "新增用户")
     @PostMapping("/save")
     public CommonResp save(
-            @ApiParam(name = "Ebook", value = "用户对象", readOnly = true)
+            @ApiParam(name = "userSaveReq", value = "用户对象", readOnly = true)
             @Valid @RequestBody UserSaveReq userSaveReq
     ){
         return  userService.register(userSaveReq);
@@ -48,6 +48,18 @@ public class UserController {
         List<User> list = userService.list(null);
         commonResp.setContent(list);
         return  commonResp;
+    }
+
+    @ApiOperation(value = "修改用户资料")
+    @PutMapping("/update")
+    public CommonResp update(
+            @ApiParam(name = "UserUpdateReq", value = "用户对象", readOnly = true)
+            @Valid @RequestBody UserUpdateReq userUpdateReq
+    ){
+        User user = new User();
+        BeanUtils.copyProperties(userUpdateReq, user);
+        userService.updateById(user);
+        return  new CommonResp();
     }
 }
 
