@@ -3,6 +3,7 @@ package com.chun.wiki.service;
 import com.chun.wiki.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chun.wiki.req.UserSaveReq;
+import com.chun.wiki.req.UserUpdatePassword;
 import com.chun.wiki.resp.CommonResp;
 
 /**
@@ -15,4 +16,5 @@ import com.chun.wiki.resp.CommonResp;
  */
 public interface UserService extends IService<User> {
     CommonResp register(UserSaveReq userSaveReq);
+    void updatePassword(UserUpdatePassword userUpdatePassword);
 }

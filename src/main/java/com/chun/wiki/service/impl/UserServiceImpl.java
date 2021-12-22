@@ -6,6 +6,7 @@ import com.chun.wiki.exceptionhandle.BusinessException;
 import com.chun.wiki.exceptionhandle.BusinessExceptionCode;
 import com.chun.wiki.mapper.UserMapper;
 import com.chun.wiki.req.UserSaveReq;
+import com.chun.wiki.req.UserUpdatePassword;
 import com.chun.wiki.resp.CommonResp;
 import com.chun.wiki.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -49,5 +50,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         CommonResp commonResp = new CommonResp();
         return commonResp;
+    }
+
+    @Override
+    public void updatePassword(UserUpdatePassword userUpdatePassword) {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("id", userUpdatePassword.getId());
+        User user = baseMapper.selectOne(userQueryWrapper);
+        if (user != null) {
+            String oldPassword = DigestUtils.md5DigestAsHex(userUpdatePassword.getOldPassword().getBytes());
+            if(!user.getPassword().equals(oldPassword)){
+                throw new BusinessException(BusinessExceptionCode.USER_OLD_PASSWORD_ERROR);
+            }
+
+            String newPassword = DigestUtils.md5DigestAsHex(userUpdatePassword.getNewPassword().getBytes());
+            user.setPassword(newPassword);
+
+            baseMapper.updateById(user);
+        } else {
+            throw new BusinessException(BusinessExceptionCode.USER_NO_EXIST);
+        }
     }
 }

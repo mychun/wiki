@@ -3,6 +3,7 @@ package com.chun.wiki.controller;
 
 import com.chun.wiki.domain.User;
 import com.chun.wiki.req.UserSaveReq;
+import com.chun.wiki.req.UserUpdatePassword;
 import com.chun.wiki.req.UserUpdateReq;
 import com.chun.wiki.resp.CommonResp;
 import com.chun.wiki.service.UserService;
@@ -59,6 +60,16 @@ public class UserController {
         User user = new User();
         BeanUtils.copyProperties(userUpdateReq, user);
         userService.updateById(user);
+        return  new CommonResp();
+    }
+
+    @ApiOperation(value = "修改用户密码")
+    @PutMapping("/updatePassworld")
+    public CommonResp updatePassworld(
+            @ApiParam(name = "UserUpdateReq", value = "用户对象", readOnly = true)
+            @Valid @RequestBody UserUpdatePassword userUpdateReq
+    ){
+        userService.updatePassword(userUpdateReq);
         return  new CommonResp();
     }
 }

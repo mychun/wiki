@@ -56,19 +56,21 @@ public class GlobalException {
         String errorMsg = "";
 
         //解析原错误信息，封装后返回，此处返回非法的字段名称，原始值，错误信息
-        for (FieldError error : exception.getBindingResult().getFieldErrors()) {
+        List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
+        for (int i = fieldErrors.size() - 1; i >= 0; i--) {
+            final FieldError error = fieldErrors.get(i);
             LOG.warn("参数校验失败：{}", error.getDefaultMessage());
-            errorMsg += ", " + error.getDefaultMessage();
-//            ArgumentInvalidResult invalidArgument = new ArgumentInvalidResult();
-//            invalidArgument.setDefaultMessage(error.getDefaultMessage());
-//            invalidArgument.setField(error.getField());
-//            invalidArgument.setRejectedValue(error.getRejectedValue());
-//            invalidArguments.add(invalidArgument);
+
+            if(errorMsg.contains(error.getDefaultMessage())){
+                continue;
+            }
+            if(i != fieldErrors.size() - 1){
+                errorMsg += ", " + error.getDefaultMessage();
+            } else {
+                errorMsg += error.getDefaultMessage();
+            }
         }
         commonResp.setMessage(errorMsg);
-//        ResultMsg resultMsg = new ResultMsg(ResultStatusCode.PARAMETER_ERROR.getErrcode(), ResultStatusCode.PARAMETER_ERROR.getErrmsg(), invalidArguments);
-//        return resultMsg;
-
         return commonResp;
     }
 
