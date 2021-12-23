@@ -6,6 +6,7 @@ import com.chun.wiki.req.UserLoginReq;
 import com.chun.wiki.req.UserSaveReq;
 import com.chun.wiki.req.UserUpdatePassword;
 import com.chun.wiki.resp.CommonResp;
+import com.chun.wiki.resp.UserLoginResp;
 
 /**
  * <p>
@@ -19,5 +20,5 @@ public interface UserService extends IService<User> {
     CommonResp register(UserSaveReq userSaveReq);
     void updatePassword(UserUpdatePassword userUpdatePassword);
 
-    void login(UserLoginReq userLoginReq);
+    UserLoginResp login(UserLoginReq userLoginReq);
 }

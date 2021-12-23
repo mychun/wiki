@@ -7,6 +7,7 @@ import com.chun.wiki.req.UserSaveReq;
 import com.chun.wiki.req.UserUpdatePassword;
 import com.chun.wiki.req.UserUpdateReq;
 import com.chun.wiki.resp.CommonResp;
+import com.chun.wiki.resp.UserLoginResp;
 import com.chun.wiki.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -81,8 +82,10 @@ public class UserController {
             @ApiParam(name = "UserLoginReq", value = "用户对象", readOnly = true)
             @Valid @RequestBody UserLoginReq userLoginReq
     ){
-        userService.login(userLoginReq);
-        return  new CommonResp<User>().setMessage("登录成功");
+        final UserLoginResp userLoginResp = userService.login(userLoginReq);
+        final CommonResp<UserLoginResp> commonResp = new CommonResp<>();
+        commonResp.setContent(userLoginResp);
+        return  commonResp;
     }
 }
 

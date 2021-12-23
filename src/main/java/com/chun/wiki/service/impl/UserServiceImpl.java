@@ -10,13 +10,19 @@ import com.chun.wiki.req.UserLoginReq;
 import com.chun.wiki.req.UserSaveReq;
 import com.chun.wiki.req.UserUpdatePassword;
 import com.chun.wiki.resp.CommonResp;
+import com.chun.wiki.resp.UserLoginResp;
 import com.chun.wiki.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chun.wiki.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -29,6 +35,12 @@ import org.springframework.util.DigestUtils;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionController.class);
+
+    @Resource
+    private SnowFlake snowFlake;
+
+    @Resource
+    private RedisTemplate redisTemplate;
 
     @Override
     public CommonResp register(UserSaveReq userSaveReq) {
@@ -78,7 +90,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public void login(UserLoginReq userLoginReq) {
+    public UserLoginResp login(UserLoginReq userLoginReq) {
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.eq("login_name", userLoginReq.getLoginName());
         User user = baseMapper.selectOne(userQueryWrapper);
@@ -90,6 +102,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             if(!user.getPassword().equals(loginPassword)){
                 LOG.warn("登录密码不正确：输入密码：{}，数据库密码：{}", userLoginReq.getPassword(), user.getPassword());
                 throw new BusinessException(BusinessExceptionCode.USER_LOGIN_ERROR);
+            } else {
+                UserLoginResp userLoginResp = new UserLoginResp();
+                BeanUtils.copyProperties(user, userLoginResp);
+                //利用雪花算法，生成toke，并存在唉redis
+                Long token =snowFlake.nextId();
+                redisTemplate.opsForValue().set(token.toString(), userLoginResp, 6400 * 24, TimeUnit.SECONDS);
+                userLoginResp.setToken(token.toString());
+                return userLoginResp;
             }
         }
     }
