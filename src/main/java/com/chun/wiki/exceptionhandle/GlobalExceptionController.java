@@ -20,8 +20,8 @@ import java.util.List;
 //所有异常处理方法都是json返回
 //如果单个方式上设置，只是该方法为json返回
 @ResponseBody
-public class GlobalException {
-    private static final Logger LOG = LoggerFactory.getLogger(GlobalException.class);
+public class GlobalExceptionController {
+    private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionController.class);
 
     /**
      * 校验异常统一处理

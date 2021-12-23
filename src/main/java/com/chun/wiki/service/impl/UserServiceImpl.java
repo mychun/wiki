@@ -4,12 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chun.wiki.domain.User;
 import com.chun.wiki.exceptionhandle.BusinessException;
 import com.chun.wiki.exceptionhandle.BusinessExceptionCode;
+import com.chun.wiki.exceptionhandle.GlobalExceptionController;
 import com.chun.wiki.mapper.UserMapper;
+import com.chun.wiki.req.UserLoginReq;
 import com.chun.wiki.req.UserSaveReq;
 import com.chun.wiki.req.UserUpdatePassword;
 import com.chun.wiki.resp.CommonResp;
 import com.chun.wiki.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -24,6 +28,7 @@ import org.springframework.util.DigestUtils;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+    private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionController.class);
 
     @Override
     public CommonResp register(UserSaveReq userSaveReq) {
@@ -69,6 +74,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             baseMapper.updateById(user);
         } else {
             throw new BusinessException(BusinessExceptionCode.USER_NO_EXIST);
+        }
+    }
+
+    @Override
+    public void login(UserLoginReq userLoginReq) {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("login_name", userLoginReq.getLoginName());
+        User user = baseMapper.selectOne(userQueryWrapper);
+        if(user == null){
+            LOG.warn("用户名不存在：{}", userLoginReq.getLoginName());
+            throw new BusinessException(BusinessExceptionCode.USER_LOGIN_ERROR);
+        }else {
+            final String loginPassword = DigestUtils.md5DigestAsHex(userLoginReq.getPassword().getBytes());
+            if(!user.getPassword().equals(loginPassword)){
+                LOG.warn("登录密码不正确：输入密码：{}，数据库密码：{}", userLoginReq.getPassword(), user.getPassword());
+                throw new BusinessException(BusinessExceptionCode.USER_LOGIN_ERROR);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ package com.chun.wiki.controller;
 
 
 import com.chun.wiki.domain.User;
+import com.chun.wiki.req.UserLoginReq;
 import com.chun.wiki.req.UserSaveReq;
 import com.chun.wiki.req.UserUpdatePassword;
 import com.chun.wiki.req.UserUpdateReq;
@@ -29,6 +30,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/wiki/user")
 public class UserController {
+
     @Autowired
     private UserService userService;
 
@@ -71,6 +73,16 @@ public class UserController {
     ){
         userService.updatePassword(userUpdateReq);
         return  new CommonResp();
+    }
+
+    @ApiOperation(value = "用户登录")
+    @PostMapping("/login")
+    public CommonResp login(
+            @ApiParam(name = "UserLoginReq", value = "用户对象", readOnly = true)
+            @Valid @RequestBody UserLoginReq userLoginReq
+    ){
+        userService.login(userLoginReq);
+        return  new CommonResp<User>().setMessage("登录成功");
     }
 }
 
