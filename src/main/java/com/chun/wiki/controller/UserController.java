@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,6 +35,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @ApiOperation(value = "新增用户")
     @PostMapping("/save")
@@ -86,6 +90,17 @@ public class UserController {
         final CommonResp<UserLoginResp> commonResp = new CommonResp<>();
         commonResp.setContent(userLoginResp);
         return  commonResp;
+    }
+
+    @ApiOperation(value = "退出登录")
+    @GetMapping("/logout/{token}")
+    public CommonResp login(
+            @ApiParam(name = "token", value = "token", readOnly = true)
+            @Valid @PathVariable String token
+    ){
+        CommonResp resp = new CommonResp<>();
+        redisTemplate.delete(token);
+        return  resp;
     }
 }
 
