@@ -18,4 +18,5 @@ import java.util.List;
 public interface EbookService extends IService<Ebook> {
 
     List<EbookResp> getListByEbookReq(EbookReq ebookReq);
+    void updateEbookCountInfo();
 }

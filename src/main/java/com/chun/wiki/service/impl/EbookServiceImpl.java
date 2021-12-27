@@ -40,4 +40,9 @@ public class EbookServiceImpl extends ServiceImpl<EbookMapper, Ebook> implements
 
         return ebookResps;
     }
+
+    @Override
+    public void updateEbookCountInfo() {
+        baseMapper.updateBookCountInfo();
+    }
 }

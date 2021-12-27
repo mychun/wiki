@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2021-12-04
  */
 public interface EbookMapper extends BaseMapper<Ebook> {
-
+    void updateBookCountInfo();
 }
