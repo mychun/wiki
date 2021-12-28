@@ -7,16 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 @Component
 public class EbookJob {
 
     @Autowired
     private EbookService ebookService;
 
-    private static final Logger LOG = LoggerFactory.getLogger(TestJob.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EbookJob.class);
 
     /**
      * 自定义cron表达式跑批
