@@ -7,6 +7,7 @@ import com.chun.wiki.resp.UserLoginResp;
 import com.chun.wiki.util.LoginUserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -61,7 +62,10 @@ public class LoginInterceptor implements HandlerInterceptor {
         } else {
             LOG.info("已登录：{}", object);
             //把获取的信息存在ThreadLocal线程里
-            LoginUserContext.setUser(JSON.parseObject((String) object, UserLoginResp.class));
+            UserLoginResp userLoginResp = new UserLoginResp();
+            BeanUtils.copyProperties(object, userLoginResp);
+            userLoginResp.setToken(token);
+            LoginUserContext.setUser(userLoginResp);
             return true;
         }
     }

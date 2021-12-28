@@ -9,6 +9,7 @@ import com.chun.wiki.resp.CommonResp;
 import com.chun.wiki.service.DocContentService;
 import com.chun.wiki.service.DocService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chun.wiki.websocket.WebSocketServer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ import java.util.List;
 public class DocServiceImpl extends ServiceImpl<DocMapper, Doc> implements DocService {
     @Autowired
     private DocContentService docContentService;
+
+    @Autowired
+    private WebSocketServer webSocketServer;
 
     @Override
     public CommonResp<List<Doc>> getDocListForEbookId(Long id) {
@@ -80,5 +84,9 @@ public class DocServiceImpl extends ServiceImpl<DocMapper, Doc> implements DocSe
     @Override
     public void addVoteCount(Long id) {
         baseMapper.addVoteCount(id);
+
+        Doc doc = baseMapper.selectById(id);
+        //使用websocket给前端通知点赞
+        webSocketServer.sendInfo("【" + doc.getTitle() + "】文章被点赞了");
     }
 }

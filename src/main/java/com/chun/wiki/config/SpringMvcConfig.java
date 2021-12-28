@@ -17,7 +17,7 @@ public class SpringMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         //加入拦截器到到配置里
         registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/**") // **表示后面不管是什么（/demo /demo/123）都可以
+                .addPathPatterns("/wiki/**") // **表示后面不管是什么（/demo /demo/123）都可以
                 .excludePathPatterns("/wiki/user/login")
                 //不拦截swagger
                 .excludePathPatterns(
