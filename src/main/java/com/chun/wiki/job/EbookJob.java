@@ -1,17 +1,24 @@
 package com.chun.wiki.job;
 
 import com.chun.wiki.service.EbookService;
+import com.chun.wiki.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 @Component
 public class EbookJob {
 
     @Autowired
     private EbookService ebookService;
+
+    @Autowired
+    private SnowFlake snowFlake;
 
     private static final Logger LOG = LoggerFactory.getLogger(EbookJob.class);
 
@@ -22,6 +29,9 @@ public class EbookJob {
      */
     @Scheduled(cron = "0 0/1 * * * ?")
     public void cron() throws InterruptedException {
+        //日志流水号
+        MDC.put("LOG_ID", String.valueOf(snowFlake.nextId()));
+
         LOG.info("更新电子书下的文档数据开始");
         Long start = System.currentTimeMillis();
         ebookService.updateEbookCountInfo();
