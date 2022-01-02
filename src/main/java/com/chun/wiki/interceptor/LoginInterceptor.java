@@ -5,8 +5,10 @@ import com.chun.wiki.exceptionhandle.BusinessException;
 import com.chun.wiki.exceptionhandle.BusinessExceptionCode;
 import com.chun.wiki.resp.UserLoginResp;
 import com.chun.wiki.util.LoginUserContext;
+import com.chun.wiki.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
@@ -27,9 +29,15 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Resource
     private RedisTemplate redisTemplate;
 
+    @Resource
+    private SnowFlake snowFlake;
+
     //在进到Controller控制器之前，开始拦截
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // 增加日志流水号
+        MDC.put("LOG_ID", String.valueOf(snowFlake.nextId()));
+
         // 打印请求信息
         LOG.info("------------- LoginInterceptor 开始 -------------");
         long startTime = System.currentTimeMillis();

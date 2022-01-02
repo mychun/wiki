@@ -35,14 +35,12 @@ public class LogAspect {
     @Pointcut("execution(public * com.chun.*.controller..*Controller.*(..))")
     public void controllerPointcut() {}
 
-    @Resource
-    private SnowFlake snowFlake;
+
 
     @Before("controllerPointcut()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
 
-        // 增加日志流水号
-        MDC.put("LOG_ID", String.valueOf(snowFlake.nextId()));
+
 
         // 开始打印请求日志
         //获取请求参数

@@ -11,6 +11,7 @@ import com.chun.wiki.service.DocService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chun.wiki.service.WxService;
 import com.chun.wiki.websocket.WebSocketServer;
+import org.slf4j.MDC;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,9 +94,10 @@ public class DocServiceImpl extends ServiceImpl<DocMapper, Doc> implements DocSe
 
         Doc doc = baseMapper.selectById(id);
 
+        String logId = MDC.get("LOG_ID");
         String token = request.getHeader("token");
         //使用websocket给前端通知点赞
         //使用异步执行，让websocket和业务做一些解耦合，提高业务方法效率
-        wxService.sendInfo("【" + doc.getTitle() + "】文章被点赞了", token);
+        wxService.sendInfo("【" + doc.getTitle() + "】文章被点赞了", token, logId);
     }
 }
