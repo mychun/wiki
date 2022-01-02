@@ -7,8 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -20,6 +22,9 @@ import java.util.HashMap;
 @ServerEndpoint("/ws/{token}")
 public class WebSocketServer {
     private static final Logger LOG = LoggerFactory.getLogger(WebSocketServer.class);
+
+    @Resource
+    private RedisTemplate redisTemplate;
 
     /**
      * 每个客户端一个token
@@ -67,11 +72,14 @@ public class WebSocketServer {
     /**
      * 群发消息
      */
-    public void sendInfo(String message) {
+    public void sendInfo(String message, String currentToken) {
         for (String token : map.keySet()) {
-            final UserLoginResp user = LoginUserContext.getUser();
-            String localToken = user.getToken();
-            if(localToken != null && localToken.equals(token)){
+            ////使用多线程时，其它线程获取不到ThreadLocal，所有 LoginUserContext.getUser(); 返回空
+            //final UserLoginResp user = LoginUserContext.getUser();
+            ////多线程获取不到，user为空 null
+            //String localToken = user.getToken();
+
+            if(currentToken != null && currentToken.equals(token)){
                 Session session = map.get(token);
                 try {
                     session.getBasicRemote().sendText(message);

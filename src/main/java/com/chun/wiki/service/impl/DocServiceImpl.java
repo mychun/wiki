@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -28,11 +29,15 @@ import java.util.List;
  */
 @Service
 public class DocServiceImpl extends ServiceImpl<DocMapper, Doc> implements DocService {
+
     @Autowired
     private DocContentService docContentService;
 
     @Autowired
     private WxService wxService;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @Override
     public CommonResp<List<Doc>> getDocListForEbookId(Long id) {
@@ -87,8 +92,10 @@ public class DocServiceImpl extends ServiceImpl<DocMapper, Doc> implements DocSe
         baseMapper.addVoteCount(id);
 
         Doc doc = baseMapper.selectById(id);
+
+        String token = request.getHeader("token");
         //使用websocket给前端通知点赞
         //使用异步执行，让websocket和业务做一些解耦合，提高业务方法效率
-        wxService.sendInfo("【" + doc.getTitle() + "】文章被点赞了");
+        wxService.sendInfo("【" + doc.getTitle() + "】文章被点赞了", token);
     }
 }

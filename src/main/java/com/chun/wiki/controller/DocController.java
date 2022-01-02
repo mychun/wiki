@@ -1,7 +1,6 @@
 package com.chun.wiki.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chun.wiki.domain.DocContent;
 import com.chun.wiki.req.DocSaveReq;
 import com.chun.wiki.resp.CommonResp;

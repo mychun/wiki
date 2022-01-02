@@ -62,6 +62,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         } else {
             LOG.info("已登录：{}", object);
             //把获取的信息存在ThreadLocal线程里
+            //如果开启多线程，其它线程就访问不到该线程的内容
             UserLoginResp userLoginResp = new UserLoginResp();
             BeanUtils.copyProperties(object, userLoginResp);
             userLoginResp.setToken(token);

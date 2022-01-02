@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
+
 @Service
 //开启多线程（异步）
 @EnableAsync
@@ -19,7 +20,7 @@ public class WxServiceImpl implements WxService {
     //定义为异步方法（启动多线程执行）
     //注意多线程的方法的定义，和调用的方法不能在同一个类，否则不生效
     @Async
-    public void sendInfo(String message) {
-        webSocketServer.sendInfo(message);
+    public void sendInfo(String message, String token) {
+        webSocketServer.sendInfo(message, token);
     }
 }
