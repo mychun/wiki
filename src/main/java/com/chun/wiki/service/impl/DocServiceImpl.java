@@ -3,6 +3,8 @@ package com.chun.wiki.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chun.wiki.domain.Doc;
 import com.chun.wiki.domain.DocContent;
+import com.chun.wiki.exceptionhandle.BusinessException;
+import com.chun.wiki.exceptionhandle.BusinessExceptionCode;
 import com.chun.wiki.mapper.DocMapper;
 import com.chun.wiki.req.DocSaveReq;
 import com.chun.wiki.resp.CommonResp;
@@ -10,6 +12,8 @@ import com.chun.wiki.service.DocContentService;
 import com.chun.wiki.service.DocService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chun.wiki.service.WxService;
+import com.chun.wiki.util.RedisUtil;
+import com.chun.wiki.util.RequestContext;
 import com.chun.wiki.websocket.WebSocketServer;
 import org.slf4j.MDC;
 import org.springframework.beans.BeanUtils;
@@ -39,6 +43,9 @@ public class DocServiceImpl extends ServiceImpl<DocMapper, Doc> implements DocSe
 
     @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Override
     public CommonResp<List<Doc>> getDocListForEbookId(Long id) {
@@ -90,7 +97,14 @@ public class DocServiceImpl extends ServiceImpl<DocMapper, Doc> implements DocSe
 
     @Override
     public void addVoteCount(Long id) {
-        baseMapper.addVoteCount(id);
+        //远程IP+doc.id作为key，24小时内不能重复
+        String ip = RequestContext.getRemoteAddr();
+        if(redisUtil.validateRepeat("DOC_VOTE_" + id + "_" + ip, 60 * 60 * 24)){
+            baseMapper.addVoteCount(id);
+        } else{
+            throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
+        }
+
 
         Doc doc = baseMapper.selectById(id);
 

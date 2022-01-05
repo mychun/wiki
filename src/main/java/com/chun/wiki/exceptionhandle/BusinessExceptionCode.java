@@ -9,7 +9,8 @@ public enum BusinessExceptionCode {
     USER_NO_EXIST("【用户】不存在"),
     USER_OLD_PASSWORD_ERROR("【用户旧密码】不对"),
     USER_LOGIN_ERROR("【用户名或密码】不对"),
-    NO_PERMISSION("没有权限访问");
+    NO_PERMISSION("没有权限访问"),
+    VOTE_REPEAT("您已点赞过");
 
     private String desc;
     BusinessExceptionCode(String desc) { this.desc = desc;}
