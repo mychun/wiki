@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class EbookSnapshotServiceImpl extends ServiceImpl<EbookSnapshotMapper, EbookSnapshot> implements EbookSnapshotService {
 
+    @Override
+    public void genSnapshot() {
+        baseMapper.genSnapshot();
+    }
 }

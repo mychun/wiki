@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-01-06
  */
 public interface EbookSnapshotService extends IService<EbookSnapshot> {
-
+    void genSnapshot();
 }
