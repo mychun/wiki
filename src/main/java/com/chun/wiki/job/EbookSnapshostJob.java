@@ -26,7 +26,7 @@ public class EbookSnapshostJob {
      * 只有等上一次执行完成，下一次才会在下一个时间点执行，错过就错过
      * springboot自带的定时器是同一线程的
      */
-    @Scheduled(cron = "0/10 * * * * ?")
+    @Scheduled(cron = "0 0/15 * * * ? ")
     public void cron() throws InterruptedException {
         //日志流水号
         MDC.put("LOG_ID", String.valueOf(snowFlake.nextId()));
